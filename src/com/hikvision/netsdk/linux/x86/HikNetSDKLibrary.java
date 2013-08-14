@@ -918,8 +918,8 @@ public interface HikNetSDKLibrary extends Library {
     /**
      * 初始化SDK，调用其他SDK函数的前提。
      *
-     * @return <a href="#TRUE">TRUE</a>表示成功，<a href="#FALSE">FALSE</a>表示失败。
-     *         获取错误码调用<a href="#NET_DVR_GetLastError">NET_DVR_GetLastError</a>
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
      *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
      *         <table>
      *         <thead>
@@ -938,8 +938,8 @@ public interface HikNetSDKLibrary extends Library {
     /**
      * 释放SDK资源，在程序结束之前调用。
      *
-     * @return <a href="#TRUE">TRUE</a>表示成功，<a href="#FALSE">FALSE</a>表示失败。
-     *         获取错误码调用<a href="#NET_DVR_GetLastError">NET_DVR_GetLastError</a>
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
      * @see #NET_DVR_Init
      */
     int NET_DVR_Cleanup();
@@ -958,7 +958,7 @@ public interface HikNetSDKLibrary extends Library {
      * @param lpDeviceInfo [out] 设备信息
      * @return -1表示失败，其他值表示返回的用户ID值。
      *         该用户ID具有唯一性，后续对设备的操作都需要通过此ID实现。
-     *         获取错误码调用<a href="#NET_DVR_GetLastError">NET_DVR_GetLastError</a>
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
      *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
      *         <table>
      *         <thead>
@@ -985,16 +985,16 @@ public interface HikNetSDKLibrary extends Library {
      *         </table>
      * @see #NET_DVR_Logout_V30
      */
-    int NET_DVR_Login_V30(String sDVRIP, short wDVRPort, String sUserName, String sPassword, LPNET_DVR_DEVICEINFO_V30_struct lpDeviceInfo);
+    int NET_DVR_Login_V30(String sDVRIP, short wDVRPort, String sUserName, String sPassword, NET_DVR_DEVICEINFO_V30 lpDeviceInfo);
 
     /**
      * 用户注销。
      * <p>该接口强制停止该用户的所有操作和释放所有的资源，确保该ID对应的线程都安全退出，资源得到释放。
      * 建议使用NET_DVR_Logout接口实现注销功能。</p>
      *
-     * @param lUserID 用户ID号，<a href="#NET_DVR_Login_V30">NET_DVR_Login_V30</a>的返回值
-     * @return <a href="#TRUE">TRUE</a>表示成功，<a href="#FALSE">FALSE</a>表示失败。
-     *         获取错误码调用<a href="#NET_DVR_GetLastError">NET_DVR_GetLastError</a>
+     * @param lUserID 用户ID号，{@link #NET_DVR_Login_V30}的返回值
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
      *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
      *         <table>
      *         <thead>
@@ -1024,9 +1024,9 @@ public interface HikNetSDKLibrary extends Library {
      * 用户注销。
      * <p>建议使用此接口实现注销功能。</p>
      *
-     * @param lUserID 用户ID号，<a href="#NET_DVR_Login_V30">NET_DVR_Login_V30</a>的返回值
-     * @return <a href="#TRUE">TRUE</a>表示成功，<a href="#FALSE">FALSE</a>表示失败。
-     *         获取错误码调用<a href="#NET_DVR_GetLastError">NET_DVR_GetLastError</a>
+     * @param lUserID 用户ID号，{@link #NET_DVR_Login_V30}的返回值
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
      *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
      *         <table>
      *         <thead>
@@ -1066,8 +1066,8 @@ public interface HikNetSDKLibrary extends Library {
      * @param fRealDataCallBack_V30 码流数据回调函数
      * @param pUser                 用户数据
      * @param bBlocked              请求码流过程是否阻塞：0－否；1－是
-     * @return -1表示失败，其他值作为<a href="#NET_DVR_StopRealPlay">NET_DVR_StopRealPlay</a>等函数的句柄参数。
-     *         获取错误码调用<a href="#NET_DVR_GetLastError">NET_DVR_GetLastError</a>
+     * @return -1表示失败，其他值作为{@link #NET_DVR_StopRealPlay}等函数的句柄参数。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
      *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
      *         <table>
      *         <thead>
@@ -1100,15 +1100,15 @@ public interface HikNetSDKLibrary extends Library {
      *         </table>
      * @see #NET_DVR_StopRealPlay
      */
-    int NET_DVR_RealPlay_V30(int lUserID, LPNET_DVR_CLIENTINFO_struct lpClientInfo, RealDataCallBack_V30 fRealDataCallBack_V30, Pointer pUser, int bBlocked);
+    int NET_DVR_RealPlay_V30(int lUserID, NET_DVR_CLIENTINFO lpClientInfo, RealDataCallBack_V30 fRealDataCallBack_V30, Pointer pUser, int bBlocked);
 
     /**
      * 停止预览。
      *
-     * @param lRealHandle 预览句柄，<a href="#NET_DVR_RealPlay_V30">NET_DVR_RealPlay_V30</a>的返回值
+     * @param lRealHandle 预览句柄，{@link #NET_DVR_RealPlay_V30}的返回值
      *                    <p>推模式：预览句柄lStreamHandle，由NET_DVR_SetPreviewResponseCallBack注册的回调函数返回。</p>
-     * @return <a href="#TRUE">TRUE</a>表示成功，<a href="#FALSE">FALSE</a>表示失败。
-     *         获取错误码调用<a href="#NET_DVR_GetLastError">NET_DVR_GetLastError</a>
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
      *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
      *         <table>
      *         <thead>
