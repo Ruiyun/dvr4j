@@ -2,9 +2,3 @@ HikVision : V4.1.7.2 build 20120716
   libhcnetsdk.so
   libStreamTransClient.so
   libSystemTransform.so
-
-
-Dahua : V3.40.1_Linux32 build 20130311
-  libdhconfigsdk.so
-  libdhdvr.so
-  libdhnetsdk.so

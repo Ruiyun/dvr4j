@@ -446,6 +446,8 @@ typedef void (CALLBACK * RealDataCallBack)(LONG lRealHandle, DWORD dwDataType, B
 
 /// Functions
 NET_DVR_API DWORD __stdcall NET_DVR_GetLastError();
+NET_DVR_API char* __stdcall NET_DVR_GetErrorMsg(LONG *pErrorNo = NULL);
+
 NET_DVR_API BOOL __stdcall NET_DVR_Init();
 NET_DVR_API BOOL __stdcall NET_DVR_Cleanup();
 

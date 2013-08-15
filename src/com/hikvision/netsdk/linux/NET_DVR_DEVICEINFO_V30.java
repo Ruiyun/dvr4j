@@ -1,4 +1,4 @@
-package com.hikvision.netsdk.linux.x86;
+package com.hikvision.netsdk.linux;
 
 import com.hikvision.netsdk.def.DeviceType;
 import com.sun.jna.Structure;

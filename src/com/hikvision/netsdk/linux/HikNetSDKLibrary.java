@@ -1,4 +1,4 @@
-package com.hikvision.netsdk.linux.x86;
+package com.hikvision.netsdk.linux;
 
 import com.hikvision.netsdk.def.ErrorNumber;
 import com.hikvision.netsdk.def.StreamDataType;
@@ -7,6 +7,7 @@ import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
 import com.sun.jna.Pointer;
+import com.sun.jna.ptr.IntByReference;
 
 /**
  * 海康的x86版本Linux设备网络SDK封装库
@@ -230,6 +231,16 @@ public interface HikNetSDKLibrary extends Library {
      *         </table>
      */
     int NET_DVR_GetLastError();
+
+    /**
+     * 返回最后操作的错误码信息。
+     * <p>通过{@link #NET_DVR_GetLastError}函数可获取错误号值。</p>
+     *
+     * @param pErrorNo 错误码数值的指针
+     * @return 返回值为错误码信息的指针。错误码主要分为网络通讯库错误码、RTSP通讯库错误码和软硬解库错误码。
+     * @see #NET_DVR_GetLastError
+     */
+    String NET_DVR_GetErrorMsg(IntByReference pErrorNo);
 
     /**
      * 初始化SDK，调用其他SDK函数的前提。

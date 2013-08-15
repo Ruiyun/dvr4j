@@ -1,4 +1,4 @@
-package com.hikvision.netsdk.linux.x86;
+package com.hikvision.netsdk.linux;
 
 import com.sun.jna.Structure;
 
