@@ -18,6 +18,11 @@
 #define LPDWORD unsigned int*
 #define HWND    unsigned int
 
+#define SERIALNO_LEN 48      //序列号长度
+
+#define TRUE  1
+#define FALSE 0
+
 /*******************全局错误码 begin**********************/
 #define NET_DVR_NOERROR                            0   //没有错误
 #define NET_DVR_PASSWORD_ERROR                     1   //用户名密码错误
@@ -160,11 +165,6 @@
 #define NET_DVR_RTSP_TEARDOWNSERVERERR    446  //rtsp teardown 服务器返回401,501等错误
 /*******************全局错误码 end**********************/
 
-#define SERIALNO_LEN 48      //序列号长度
-
-#define TRUE  1
-#define FALSE 0
-
 /********************预览回调函数*********************/
 #define NET_DVR_SYSHEAD         1   //系统头数据
 #define NET_DVR_STREAMDATA      2   //视频流数据（包括复合流和音视频分开的视频流数据）
@@ -174,6 +174,226 @@
 #define NET_DVR_CHANGE_FORWARD  10  //码流改变为正放
 #define NET_DVR_CHANGE_REVERSE  11  //码流改变为倒放
 #define NET_DVR_PRIVATE_DATA    112 //私有数据,包括智能信息
+/******************** 设备类型 end *********************/
+
+/******************** 设备类型 *********************/
+#define DVR                    1     //对尚未定义的dvr类型返回NETRET_DVR
+#define ATMDVR                 2     //atm dvr
+#define DVS                    3     //DVS
+#define DEC                    4     //6001D
+#define ENC_DEC                5     //6001F
+#define DVR_HC                 6     //8000HC
+#define DVR_HT                 7     //8000HT
+#define DVR_HF                 8     //8000HF
+#define DVR_HS                 9     //8000HS DVR(no audio)
+#define DVR_HTS                10    //8016HTS DVR(no audio)
+#define DVR_HB                 11    //HB DVR(SATA HD)
+#define DVR_HCS                12    //8000HCS DVR
+#define DVS_A                  13    //带ATA硬盘的DVS
+#define DVR_HC_S               14    //8000HC-S
+#define DVR_HT_S               15    //8000HT-S
+#define DVR_HF_S               16    //8000HF-S
+#define DVR_HS_S               17    //8000HS-S
+#define ATMDVR_S               18    //ATM-S
+#define DVR_7000H              19    //7000H系列
+#define DEC_MAT                20    //多路解码器
+#define DVR_MOBILE             21    //mobile DVR
+#define DVR_HD_S               22    //8000HD-S
+#define DVR_HD_SL              23    //8000HD-SL
+#define DVR_HC_SL              24    //8000HC-SL
+#define DVR_HS_ST              25    //8000HS_ST
+#define DVS_HW                 26    //6000HW
+#define DS630X_D               27    //多路解码器
+#define DS640X_HD              28    //640X高清解码器
+#define DS610X_D               29    //610X解码器
+#define IPCAM                  30    //IP 摄像机
+#define MEGA_IPCAM             31    //852F&852MF
+#define IPCAM_X62MF            32    //862MF可以接入9000设备
+#define ITCCAM                 35    //智能高清网络摄像机
+#define IVS_IPCAM              36    //智能分析高清网络摄像机
+#define ZOOMCAM                38    //一体机
+#define IPDOME                 40    //IP 标清球机
+#define IPDOME_MEGA200         41    //IP 200万高清球机
+#define IPDOME_MEGA130         42    //IP 130万高清球机
+#define IPDOME_AI              43    //IP 高清智能快球
+#define TII_IPCAM              44    //红外热成像摄像机
+#define IPMOD                  50    //IP 模块
+#define IDS6501_HF_P           60    //6501 车牌
+#define IDS6101_HF_A           61    //智能ATM
+#define IDS6002_HF_B           62    //双机跟踪：DS6002-HF/B
+#define IDS6101_HF_B           63    //行为分析：DS6101-HF/B DS6101-HF/B_SATA
+#define IDS52XX                64    //智能分析仪IVMS
+#define IDS90XX                65    //9000智能
+#define IDS8104_AHL_S_HX       66    //海鑫人脸识别 ATM
+#define IDS8104_AHL_S_H        67    //私有人脸识别 ATM
+#define IDS91XX                68    //9100智能
+#define IIP_CAM_B              69    //智能行为IP摄像机
+#define IIP_CAM_F              70    //智能人脸IP摄像机
+#define DS71XX_H               71    //DS71XXH_S
+#define DS72XX_H_S             72    //DS72XXH_S
+#define DS73XX_H_S             73    //DS73XXH_S
+#define DS72XX_HF_S            74    //DS72XX_HF_S
+#define DS73XX_HFI_S           75    //DS73XX_HFI_S
+#define DS76XX_H_S             76    //DVR,e.g. DS7604_HI_S
+#define DS76XX_N_S             77    //NVR,e.g. DS7604_NI_S
+#define DS81XX_HS_S            81    //DS81XX_HS_S
+#define DS81XX_HL_S            82    //DS81XX_HL_S
+#define DS81XX_HC_S            83    //DS81XX_HC_S
+#define DS81XX_HD_S            84    //DS81XX_HD_S
+#define DS81XX_HE_S            85    //DS81XX_HE_S
+#define DS81XX_HF_S            86    //DS81XX_HF_S
+#define DS81XX_AH_S            87    //DS81XX_AH_S
+#define DS81XX_AHF_S           88    //DS81XX_AHF_S
+#define DS90XX_HF_S            90    //DS90XX_HF_S
+#define DS91XX_HF_S            91    //DS91XX_HF_S
+#define DS91XX_HD_S            92    //91XXHD-S(MD)
+#define IDS90XX_A              93    //9000智能 ATM
+#define IDS91XX_A              94    //9100智能 ATM
+#define DS95XX_N_S             95    //DS95XX_N_S NVR 不带任何输出
+#define DS96XX_N_SH            96    //DS96XX_N_SH NVR
+#define DS90XX_HF_SH           97    //DS90XX_HF_SH
+#define DS91XX_HF_SH           98    //DS91XX_HF_SH
+#define DS_B10_XY              100   //视频综合平台设备型号(X:编码板片数，Y:解码板片数)
+#define DS_6504HF_B10          101   //视频综合平台内部编码器
+#define DS_6504D_B10           102   //视频综合平台内部解码器
+#define DS_1832_B10            103   //视频综合平台内部码分器
+#define DS_6401HFH_B10         104   //视频综合平台内部光纤板
+#define DS_65XXHC              105   //65XXHC DVS
+#define DS_65XXHC_S            106   //65XXHC-SATA DVS
+#define DS_65XXHF              107   //65XXHF DVS
+#define DS_65XXHF_S            108   //65XXHF-SATA DVS
+#define DS_6500HF_B            109   //65 rack DVS
+#define IVMS_6200_C            110   //iVMS-6200(/C)
+#define IVMS_6200_B            111   //iVMS-6200(/B)
+#define DS_72XXHV_ST15         112   //72XXHV_ST15 DVR
+#define DS_72XXHV_ST20         113   //72XXHV_ST20 DVR
+#define IVMS_6200_T            114   //IVMS-6200(/T)
+#define IVMS_6200_BP           115   //IVMS-6200(/BP)
+#define DS_81XXHC_ST           116   //DS_81XXHC_ST
+#define DS_81XXHS_ST           117   //DS_81XXHS_ST
+#define DS_81XXAH_ST           118   //DS_81XXAH_ST
+#define DS_81XXAHF_ST          119   //DS_81XXAHF_ST
+#define DS_66XXDVS             120   //66XX DVS
+
+#define DS_1964_B10            121   //视频综合平台内部报警器
+#define DS_B10N04_IN           122   //视频综合平台内部级联输入
+#define DS_B10N04_OUT          123   //视频综合平台内部级联输出
+#define DS_B10N04_INTEL        124   //视频综合平台内部智能
+#define DS_6408HFH_B10E_RM     125   //V6高清
+#define DS_B10N64F1_RTM        126   //V6级联不带DSP
+#define DS_B10N64F1D_RTM       127   //V6级联带DSP
+#define DS_B10_SDS             128   //视频综合平台子域控制器
+#define DS_B10_DS              129   //视频综合平台域控制器
+#define DS_6401HFH_B10V        130   //VGA高清编码器
+#define DS_6504D_B10B          131   //视频综合平台内部标清解码器
+#define DS_6504D_B10H          132   //视频综合平台内部高清解码器
+#define DS_6504D_B10V          133   //视频综合平台内部VGA解码器
+#define DS_6408HFH_B10S        134   //视频综合平台SDI子板
+#define DS_18XX_N              135   //矩阵接入网关
+
+#define DS_18XX_PTZ            141   //网络码分类产品
+#define DS_19AXX               142   //通用报警主机类产品
+#define DS_19BXX               143   //家用报警主机
+#define DS_19CXX               144   //自助银行报警主机
+#define DS_19DXX               145   //动环监控报警主机
+#define DS_19XX                146   //1900系列报警主机
+#define DS_19SXX               147   //视频报警主机
+#define DS_1HXX                148   //CS类产品 //防护舱
+
+//2011-11-30
+#define DS_C10H                161   //多屏控制器
+#define DS_C10N_BI             162   //BNC处理器
+#define DS_C10N_DI             163   //rbg处理器
+#define DS_C10N_SI             164   //码流处理器
+#define DS_C10N_DO             165   //显示处理器
+#define DS_C10N_SERVER         166   //分布式服务器
+
+#define IDS_8104_AHFL_S_H      171   //8104ATM
+#define IDS_65XX_HF_A          172   //65 ATM
+#define IDS90XX_HF_RH          173   //9000 智能RH
+#define IDS91XX_HF_RH          174   //9100 智能RH设备
+#define IDS_65XX_HF_B          175   //65 行为分析
+#define IDS_65XX_HF_P          176   //65 车牌识别
+#define IVMS_6200_F            177   //IVMS-6200(/F)
+#define IVMS_6200_A            178   //iVMS-6200(/A)
+#define IVMS_6200_F_S          179   //IVMS-6200(/F_S)人脸后检索分析仪
+
+#define DS90XX_HF_RH           181   //9000 RH    648
+#define DS91XX_HF_RH           182   //9100 RH设备 648
+#define DS78XX_S               183   //78系列设备 6446
+#define DS81XXHW_S             185   //81 Resolution 960 KY2011
+#define DS81XXHW_ST            186   //DS81XXHW_ST  KY2011
+#define DS91XXHW_ST            187   //DS91XXHW_ST  KY2011
+#define DS91XX_ST              188   //DS91XX_ST netra
+#define DS81XX_ST              189   //DS81XX_ST netra
+#define DS81XXHX_ST            190   //DS81XXHDI_ST,DS81XXHE_ST ky2012
+#define DS73XXHX_ST            191   //DS73XXHI_ST ky2012
+#define DS81XX_SH              192   //审讯81SH,81SHF
+#define DS81XX_SN              193   //审讯81SNL
+
+#define DS96XXN_ST             194   //NVR:DS96xxN_ST
+#define DS86XXN_ST             195   //NVR:DS86xxN_ST
+#define DS80XXHF_ST            196   //DVR:DS80xxHF_ST
+#define DS90XXHF_ST            197   //DVR:DS90xxHF_ST
+#define DS76XXN_ST             198   //NVR:DS76xxN_ST
+
+#define DS_9664N_RX            199   //NVR:DS_9664N_RX
+#define ENCODER_SERVER         200   //编码卡服务器
+#define DECODER_SERVER         201   //解码卡服务器
+#define PCNVR_SERVER           202   //PCNVR存储服务器
+#define CVR_SERVER             203   //邦诺CVR，他给自己定的类型为DVR_S-1
+#define DS_91XXHFH_ST          204   //91系列HD-SDI高清DVR
+#define DS_66XXHFH             205   //66高清编码器
+#define TRAFFIC_TS_SERVER      210   //终端服务器
+#define TRAFFIC_VAR            211   //视频分析记录仪
+#define DS_B11_M_CLASS         301   //视频综合平台设备型号
+#define DS_B12_M_CLASS         302   //视频综合平台设备型号
+#define DS_6504HF_B11_CLASS    303   //视频综合平台内部编码器
+#define DS_6504HF_B12_CLASS    304   //视频综合平台内部编码器
+#define DS_6401HFH_B11V_CLASS  305   //VGA高清
+#define DS_6401HFH_B12V_CLASS  306   //VGA高清
+#define DS_6408HFH_B11S_CLASS  307   //SDI
+#define DS_6408HFH_B12S_CLASS  308   //SDI
+#define DS_6504D_B11H_CLASS    309   //视频综合平台内部高清解码器
+#define DS_6504D_B11B_CLASS    310   //视频综合平台内部标清解码器
+#define DS_6504D_B12B_CLASS    311   //视频综合平台内部标清解码器
+#define DS_6504D_B11V_CLASS    312   //视频综合平台内部VGA解码器
+#define DS_6504D_B12V_CLASS    313   //视频综合平台内部VGA解码器
+//B10新增
+#define DS_6401HFH_B10R_CLASS  314   //B10 RGB高清
+#define DS_6401HFH_B10D_CLASS  315   //B10 DVI高清
+#define DS_6401HFH_B10H_CLASS  316   //B10 HDMI高清
+//B11新增
+#define DS_6401HFH_B11R_CLASS  317   //B11 RGB高清
+#define DS_6401HFH_B11D_CLASS  318   //B11 DVI高清
+#define DS_6401HFH_B11H_CLASS  319   //B11 HDMI高清
+//B12新增
+#define DS_6401HFH_B12R_CLASS  320   //B12 RGB高清
+#define DS_6401HFH_B12D_CLASS  321   //B12 DVI高清
+#define DS_6401HFH_B12H_CLASS  322   //B12 HDMI高清
+
+#define DS64XXHD_T             701   //64-T高清解码器
+#define DS_6516D_B10           702   //65系列万能解码板
+#define DS_65XXD               703   //65万能解码器
+#define DS63XXD_T              704   //63-T标清解码器
+
+//DVR
+#define DS90XXHW_ST            2001  //DS90XXHW_ST混合DVR
+#define DS72XXHX_SH            2002  //DS-72xxHV_SH, DS-72xxHF-SH
+#define DS_92XX_HF_ST          2003  //DS-92XX-HF-ST
+#define DS_91XX_HF_XT          2004  //NETRET_9100DVR_HF_XT
+#define DS_90XX_HF_XT          2005  //NETRET_9000DVR_HF_XT
+
+//NVR
+#define DS_77XXN_ST            2201  //Netra NVR DS-77XXHF-ST
+#define DS_95XX_N_ST           2202  //Netra 95XXN_ST NVR
+#define DS_85XX_N_ST           2203  //Netra 85XXN_ST NVR
+#define DS_96XX_N_XT           2204  //NETRET_9600NVR_N_XT
+#define DS_76XX_N_SE           2205  //NETRET_7600NVR_N_SE
+
+//PCNVR
+#define PCNVR_IVMS_4200        2301  //PCNVR_IVMS_4200
+/******************** 设备类型 end *********************/
 
 /// Structs
 // NET_DVR_Login_V30()参数结构
