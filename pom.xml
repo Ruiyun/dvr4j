@@ -5,8 +5,16 @@
 	<artifactId>dvr4j</artifactId>
 	<name>dvr4j</name>
     <description>针对各个主要DVR厂商SDK的Java封装</description>
+    <url>http://github.com/Ruiyun/dvr4j</url>
 	<version>1.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
+
+    <licenses>
+        <license>
+            <name>Eclipse Public License</name>
+            <url>http://www.eclipse.org/legal/epl-v10.html</url>
+        </license>
+    </licenses>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -26,6 +34,7 @@
         <connection>scm:git:git://github.com/Ruiyun/dvr4j.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/Ruiyun/dvr4j.git</developerConnection>
         <url>https://github.com/Ruiyun/dvr4j</url>
+        <tag>HEAD</tag>
     </scm>
 	
 	<build>
@@ -40,16 +49,6 @@
 	</build>
 	<repositories>
         <repository>
-            <id>central</id>
-            <url>http://repo1.maven.org/maven2/</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-        <repository>
             <id>clojars</id>
             <url>https://clojars.org/repo/</url>
             <snapshots>
@@ -59,11 +58,6 @@
                 <enabled>true</enabled>
             </releases>
         </repository>
-		<repository>
-			<id>sonatype</id>
-			<name>Sonatype OSS Snapshots Repository</name>
-			<url>http://oss.sonatype.org/content/groups/public</url>
-		</repository>
 	</repositories>
 </project>
 
