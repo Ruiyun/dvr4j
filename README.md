@@ -8,15 +8,15 @@ dvr4j
 
 leiningen:
 
-* [dvr4j "1.0-SNAPSHOT"]
+    [dvr4j "1.0-SNAPSHOT"]
 
 maven:
 
-* <dependency>
-*  <groupId>dvr4j</groupId>
-*  <artifactId>dvr4j</artifactId>
-*  <version>1.0-SNAPSHOT</version>
-* </dependency>
+    <dependency>
+      <groupId>dvr4j</groupId>
+      <artifactId>dvr4j</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
 
 
 API文档
