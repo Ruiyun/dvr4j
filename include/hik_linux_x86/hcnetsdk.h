@@ -179,49 +179,50 @@
 // NET_DVR_Login_V30()参数结构
 typedef struct
 {
-    BYTE sSerialNumber[SERIALNO_LEN];  //序列号
-    BYTE byAlarmInPortNum;   //报警输入个数
-    BYTE byAlarmOutPortNum;  //报警输出个数
-    BYTE byDiskNum;        //硬盘个数
-    BYTE byDVRType;        //设备类型, 1:DVR 2:ATM DVR 3:DVS ......
-    BYTE byChanNum;        //模拟通道个数
-    BYTE byStartChan;      //起始通道号,例如DVS-1,DVR - 1
-    BYTE byAudioChanNum;   //语音通道数
-    BYTE byIPChanNum;      //最大数字通道个数
-    BYTE byZeroChanNum;    //零通道编码个数 //2010-01-16
-    BYTE byMainProto;      //主码流传输协议类型 0-private, 1-rtsp
-    BYTE bySubProto;       //子码流传输协议类型0-private, 1-rtsp
-    BYTE bySupport;        //能力，位与结果为0表示不支持，1表示支持，
-                           //bySupport & 0x1, 表示是否支持智能搜索
-                           //bySupport & 0x2, 表示是否支持备份
-                           //bySupport & 0x4, 表示是否支持压缩参数能力获取
-                           //bySupport & 0x8, 表示是否支持多网卡
-                           //bySupport & 0x10, 表示支持远程SADP
-                           //bySupport & 0x20, 表示支持Raid卡功能
-                           //bySupport & 0x40, 表示支持IPSAN 目录查找
-                           //bySupport & 0x80, 表示支持rtp over rtsp
-    BYTE bySupport1;       //能力集扩充，位与结果为0表示不支持，1表示支持
-                           //bySupport1 & 0x1, 表示是否支持snmp v30
-                           //bySupport1 & 0x2, 支持区分回放和下载
-                           //bySupport1 & 0x4, 是否支持布防优先级
-                           //bySupport1 & 0x8, 智能设备是否支持布防时间段扩展
-                           //bySupport1 & 0x10, 表示是否支持多磁盘数（超过33个）
+    BYTE sSerialNumber[SERIALNO_LEN]; //序列号
+    BYTE byAlarmInPortNum;            //报警输入个数
+    BYTE byAlarmOutPortNum;           //报警输出个数
+    BYTE byDiskNum;                   //硬盘个数
+    BYTE byDVRType;                   //设备类型, 1:DVR 2:ATM DVR 3:DVS ......
+    BYTE byChanNum;                   //模拟通道个数
+    BYTE byStartChan;                 //起始通道号,例如DVS-1,DVR - 1
+    BYTE byAudioChanNum;              //语音通道数
+    BYTE byIPChanNum;                 //最大数字通道个数
+    BYTE byZeroChanNum;               //零通道编码个数 //2010-01-16
+    BYTE byMainProto;                 //主码流传输协议类型 0-private, 1-rtsp
+    BYTE bySubProto;                  //子码流传输协议类型0-private, 1-rtsp
+    BYTE bySupport;                   //能力，位与结果为0表示不支持，1表示支持，
+                                      //bySupport & 0x1, 表示是否支持智能搜索
+                                      //bySupport & 0x2, 表示是否支持备份
+                                      //bySupport & 0x4, 表示是否支持压缩参数能力获取
+                                      //bySupport & 0x8, 表示是否支持多网卡
+                                      //bySupport & 0x10, 表示支持远程SADP
+                                      //bySupport & 0x20, 表示支持Raid卡功能
+                                      //bySupport & 0x40, 表示支持IPSAN 目录查找
+                                      //bySupport & 0x80, 表示支持rtp over rtsp
+    BYTE bySupport1;                  //能力集扩充，位与结果为0表示不支持，1表示支持
+                                      //bySupport1 & 0x1, 表示是否支持snmp v30
+                                      //bySupport1 & 0x2, 支持区分回放和下载
+                                      //bySupport1 & 0x4, 是否支持布防优先级
+                                      //bySupport1 & 0x8, 智能设备是否支持布防时间段扩展
+                                      //bySupport1 & 0x10, 表示是否支持多磁盘数（超过33个）
     BYTE byRes1;
-    WORD wDevType;         //设备型号
-    BYTE byRes2[16];       //保留
+    WORD wDevType;                    //设备型号
+    BYTE byRes2[16];                  //保留
 } NET_DVR_DEVICEINFO_V30, *LPNET_DVR_DEVICEINFO_V30;
 
 //软解码预览参数
 typedef struct
 {
-    LONG lChannel; //通道号
-    LONG lLinkMode; //最高位(31)为0表示主码流，为1表示子，0－30位表示码流连接方式: 0：TCP方式,1：UDP方式,2：多播方式,3 - RTP方式，4-RTP/RTSP,5-RSTP/HTTP
-    HWND hPlayWnd; //播放窗口的句柄,为NULL表示不播放图象
+    LONG lChannel;      //通道号
+    LONG lLinkMode;     //最高位(31)为0表示主码流，为1表示子，0－30位表示码流连接方式: 0：TCP方式,1：UDP方式,2：多播方式,3 - RTP方式，4-RTP/RTSP,5-RSTP/HTTP
+    HWND hPlayWnd;      //播放窗口的句柄,为NULL表示不播放图象
     char *sMultiCastIP; //多播组地址
 } NET_DVR_CLIENTINFO, *LPNET_DVR_CLIENTINFO;
 
 /// Callbacks
 typedef void (CALLBACK * RealDataCallBack_V30)(LONG lRealHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, void *pUser)
+typedef void (CALLBACK * RealDataCallBack)(LONG lRealHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, DWORD dwUser)
 
 /// Functions
 NET_DVR_API DWORD __stdcall NET_DVR_GetLastError();
@@ -234,5 +235,8 @@ NET_DVR_API BOOL __stdcall NET_DVR_Logout_V30(LONG lUserID);
 
 NET_DVR_API LONG __stdcall NET_DVR_RealPlay_V30(LONG lUserID, LPNET_DVR_CLIENTINFO lpClientInfo, RealDataCallBack_V30 fRealDataCallBack_V30 = NULL, void *pUser = NULL, BOOL bBlocked = FALSE);
 NET_DVR_API BOOL __stdcall NET_DVR_StopRealPlay(LONG lRealHandle);
+
+NET_DVR_API BOOL __stdcall NET_DVR_SetRealDataCallBack(LONG lRealHandle, RealDataCallBack fRealDataCallBack, DWORD dwUser);
+NET_DVR_API BOOL __stdcall NET_DVR_SetStandardDataCallBack(LONG lRealHandle, RealDataCallBack fRealDataCallBack, DWORD dwUser);
 
 #endif // _HC_NET_SDK_H_

@@ -756,7 +756,34 @@ public interface HikNetSDKLibrary extends Library {
          * @param dwBufSize   缓冲区大小
          * @param pUser       用户数据
          */
-        void apply(int lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, Pointer pUser);
+        void invoke(int lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, Pointer pUser);
+    }
+
+    /**
+     * 适用于{@link #NET_DVR_SetRealDataCallBack}和{@link #NET_DVR_SetStandardDataCallBack}的码流数据回调接口
+     */
+    public interface RealDataCallBack extends Callback {
+        /**
+         * @param lRealHandle 当前的预览句柄
+         * @param dwDataType  数据类型
+         *                    <table>
+         *                    <thead>
+         *                    <tr><th>类型</th><th>值</th><th>含义</th></tr>
+         *                    </thead>
+         *                    <tbody>
+         *                    <tr><td>NET_DVR_SYSHEAD</td><td>1</td><td>系统头数据</td></tr>
+         *                    <tr><td>NET_DVR_STREAMDATA</td><td>2</td><td>流数据（包括复合流或音视频分开的视频流数据）</td></tr>
+         *                    <tr><td>NET_DVR_AUDIOSTREAMDATA</td><td>3</td><td>音频数据</td></tr>
+         *                    <tr><td>NET_DVR_STD_VIDEODATA</td><td>4</td><td>标准视频流数据</td></tr>
+         *                    <tr><td>NET_DVR_STD_AUDIODATA</td><td>5</td><td>标准音频流数据</td></tr>
+         *                    <tr><td>NET_DVR_PRIVATE_DATA</td><td>112</td><td>私有数据,包括智能信息</td></tr>
+         *                    </tbody>
+         *                    </table>
+         * @param pBuffer     存放数据的缓冲区指针
+         * @param dwBufSize   缓冲区大小
+         * @param dwUser      用户数据
+         */
+        void invoke(int lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, int dwUser);
     }
 
     /**
@@ -985,7 +1012,7 @@ public interface HikNetSDKLibrary extends Library {
      *         </table>
      * @see #NET_DVR_Logout_V30
      */
-    int NET_DVR_Login_V30(String sDVRIP, short wDVRPort, String sUserName, String sPassword, NET_DVR_DEVICEINFO_V30 lpDeviceInfo);
+    int NET_DVR_Login_V30(String sDVRIP, short wDVRPort, String sUserName, String sPassword, NET_DVR_DEVICEINFO_V30.ByReference lpDeviceInfo);
 
     /**
      * 用户注销。
@@ -1057,15 +1084,15 @@ public interface HikNetSDKLibrary extends Library {
      * <p>该接口中可以设置当前预览操作是否阻塞（通过bBlocked参数设置）。
      * 若设为不阻塞，表示发起与设备的连接就认为连接成功，如果发生码流接收失败、播放失败等情况以预览异常的方式通知上层。
      * 在循环播放的时候可以减短停顿的时间，与NET_DVR_RealPlay处理一致。 若设为阻塞，表示直到播放操作完成才返回成功与否。</p>
-     * <p>该接口中的回调函数可以置为空，这样该函数将不回调码流数据给用户，不过用户仍可以通过接口NET_DVR_SetRealDataCallBack
-     * 或NET_DVR_SetStandardDataCallBack注册捕获码流数据的回调函数以捕获码流数据。</p>
+     * <p>该接口中的回调函数可以置为空，这样该函数将不回调码流数据给用户，不过用户仍可以通过接口{@link #NET_DVR_SetRealDataCallBack}
+     * 或{@link #NET_DVR_SetStandardDataCallBack}注册捕获码流数据的回调函数以捕获码流数据。</p>
      * <p>客户端异常离线时，设备端对取流连接的保持时间为10秒。</p>
      *
-     * @param lUserID               NET_DVR_Login_V30的返回值
-     * @param lpClientInfo          预览参数
-     * @param fRealDataCallBack_V30 码流数据回调函数
-     * @param pUser                 用户数据
-     * @param bBlocked              请求码流过程是否阻塞：0－否；1－是
+     * @param lUserID            NET_DVR_Login_V30的返回值
+     * @param lpClientInfo       预览参数
+     * @param cbRealDataCallBack 码流数据回调函数
+     * @param pUser              用户数据
+     * @param bBlocked           请求码流过程是否阻塞：0－否；1－是
      * @return -1表示失败，其他值作为{@link #NET_DVR_StopRealPlay}等函数的句柄参数。
      *         获取错误码调用{@link #NET_DVR_GetLastError}
      *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
@@ -1100,7 +1127,7 @@ public interface HikNetSDKLibrary extends Library {
      *         </table>
      * @see #NET_DVR_StopRealPlay
      */
-    int NET_DVR_RealPlay_V30(int lUserID, NET_DVR_CLIENTINFO lpClientInfo, RealDataCallBack_V30 fRealDataCallBack_V30, Pointer pUser, int bBlocked);
+    int NET_DVR_RealPlay_V30(int lUserID, NET_DVR_CLIENTINFO.ByReference lpClientInfo, RealDataCallBack_V30 cbRealDataCallBack, Pointer pUser, int bBlocked);
 
     /**
      * 停止预览。
@@ -1128,4 +1155,35 @@ public interface HikNetSDKLibrary extends Library {
      * @see #NET_DVR_RealPlay_V30
      */
     int NET_DVR_StopRealPlay(int lRealHandle);
+
+    /**
+     * 注册回调函数，捕获实时码流数据。
+     * <p>此函数包括开始和停止用户处理SDK捕获的数据，当回调函数cbRealDataCallBack设为非NULL值时，表示回调和处理数据；
+     * 当设为NULL时表示停止回调和处理数据。回调的第一个包是40个字节的文件头，供后续解码使用，之后回调的是压缩的码流。
+     * 回调数据最大为256K字节。</p>
+     *
+     * @param lRealHandle        {@link #NET_DVR_RealPlay_V30}的返回值
+     * @param cbRealDataCallBack 码流数据回调函数
+     * @param dwUser             用户数据
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
+     * @see #NET_DVR_RealPlay_V30
+     */
+    int NET_DVR_SetRealDataCallBack(int lRealHandle, RealDataCallBack cbRealDataCallBack, int dwUser);
+
+    /**
+     * 注册回调函数，捕获实时码流数据（标准码流）。
+     * <p>此函数包括开始和停止用户处理SDK捕获的数据，当回调函数cbStdDataCallBack设为非NULL值时，表示回调和处理数据；
+     * 当设为NULL时表示停止回调和处理数据。回调的第一个包是40个字节的文件头，供后续解码使用，
+     * 之后回调的是标准码流（含12字节的RTP头）。</p>
+     * <p>此函数目前仅支持对于支持RTSP协议取流的设备的标准码流回调。</p>
+     *
+     * @param lRealHandle       {@link #NET_DVR_RealPlay_V30}的返回值
+     * @param cbStdDataCallBack 标准码流回调函数
+     * @param dwUser            用户数据
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
+     * @see #NET_DVR_RealPlay_V30
+     */
+    int NET_DVR_SetStandardDataCallBack(int lRealHandle, RealDataCallBack cbStdDataCallBack, int dwUser);
 }
