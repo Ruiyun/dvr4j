@@ -10,7 +10,7 @@ import com.sun.jna.Pointer;
 import com.sun.jna.ptr.IntByReference;
 
 /**
- * 海康的x86版本Linux设备网络SDK封装库
+ * 海康的Linux版本设备网络SDK封装库
  */
 @SuppressWarnings("UnusedDeclaration")
 public interface HikNetSDKLibrary extends Library {

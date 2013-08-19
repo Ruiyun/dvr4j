@@ -1,7 +1,7 @@
 package com.hikvision.netsdk.def;
 
 /**
- * 设备类型定义
+ * 海康设备类型定义
  */
 public abstract class DeviceType {
     /**

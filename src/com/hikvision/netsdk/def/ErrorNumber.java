@@ -1,7 +1,7 @@
 package com.hikvision.netsdk.def;
 
 /**
- * 错误号定义
+ * 海康SDK错误号定义
  */
 public abstract class ErrorNumber {
     /**
