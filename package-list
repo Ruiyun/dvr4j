@@ -1,3 +1,6 @@
+com.dahua.netsdk
+com.dahua.netsdk.def
+com.dahua.netsdk.linux
 com.hikvision.netsdk
 com.hikvision.netsdk.def
-com.hikvision.netsdk.linux.x86
+com.hikvision.netsdk.linux
