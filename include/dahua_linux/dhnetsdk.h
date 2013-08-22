@@ -297,6 +297,60 @@ typedef enum _RealPlayType
     DH_RType_Multiplay_12,      // 多画面预览－12画面
 } DH_RealPlayType;
 
+enum NET_DEVICE_TYPE
+{
+    NET_PRODUCT_NONE          = 0,
+    NET_DVR_NONREALTIME_MACE, // 非实时MACE
+    NET_DVR_NONREALTIME,      // 非实时
+    NET_NVS_MPEG1,            // 网络视频服务器
+    NET_DVR_MPEG1_2,          // MPEG1二路录像机
+    NET_DVR_MPEG1_8,          // MPEG1八路录像机
+    NET_DVR_MPEG4_8,          // MPEG4八路录像机
+    NET_DVR_MPEG4_16,         // MPEG4十六路录像机
+    NET_DVR_MPEG4_SX2,        // LB系列录像机
+    NET_DVR_MEPG4_ST2,        // GB系列录像机
+    NET_DVR_MEPG4_SH2,        // HB系列录像机
+    NET_DVR_MPEG4_GBE,        // GBE系列录像机
+    NET_DVR_MPEG4_NVSII,      // II代网络视频服务器
+    NET_DVR_STD_NEW,          // 新标准配置协议
+    NET_DVR_DDNS,             // DDNS服务器
+    NET_DVR_ATM,              // ATM机
+    NET_NB_SERIAL,            // 二代非实时NB系列机器
+    NET_LN_SERIAL,            // LN系列产品
+    NET_BAV_SERIAL,           // BAV系列产品
+    NET_SDIP_SERIAL,          // SDIP系列产品
+    NET_IPC_SERIAL,           // IPC系列产品
+    NET_NVS_B,                // NVS B系列
+    NET_NVS_C,                // NVS H系列
+    NET_NVS_S,                // NVS S系列
+    NET_NVS_E,                // NVS E系列
+    NET_DVR_NEW_PROTOCOL,     // 从QueryDevState中查询设备类型,以字符串格式
+    NET_NVD_SERIAL,           // 解码器
+    NET_DVR_N5,               // N5
+    NET_DVR_MIX_DVR,          // 混合DVR
+    NET_SVR_SERIAL,           // SVR系列
+    NET_SVR_BS,               // SVR-BS
+    NET_NVR_SERIAL,           // NVR系列
+    NET_DVR_N51,              // N51
+    NET_ITSE_SERIAL,          // ITSE 智能分析盒
+    NET_ITC_SERIAL,           // 智能交通像机设备
+    NET_HWS_SERIAL,           // 雷达测速仪HWS
+    NET_PVR_SERIAL,           // 便携式音视频录像机
+    NET_IVS_SERIAL,           // IVS（智能视频服务器系列）
+    NET_IVS_B,                // 通用智能视频侦测服务器
+    NET_IVS_F,                // 人脸识别服务器
+    NET_IVS_V,                // 视频质量诊断服务器
+    NET_MATRIX_SERIAL,        // 矩阵
+    NET_DVR_N52,              // N52
+    NET_DVR_N56,              // N56
+    NET_ESS_SERIAL,           // ESS
+    NET_IVS_PC,               // 人数统计服务器
+    NET_PC_NVR,               // pc-nvr
+    NET_DSCON,                // 大屏控制器
+    NET_EVS,                  // 网络视频存储服务器
+    NET_EIVS,                 // 嵌入式智能分析视频系统
+};
+
 // Structs
 // 时间
 typedef struct
