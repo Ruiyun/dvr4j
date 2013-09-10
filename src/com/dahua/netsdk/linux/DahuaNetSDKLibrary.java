@@ -75,7 +75,7 @@ public interface DahuaNetSDKLibrary extends Library {
          *                    当数据类型是PCM数据的时候param也是一个{@link tagCBPCMDataParam}结构体指针
          * @param dwUser      用户数据，就是上面输入的用户数据
          */
-        void invoke(NativeLong lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, int param, NativeLong dwUser);
+        void invoke(NativeLong lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, Pointer param, NativeLong dwUser);
     }
 
     /**
