@@ -454,4 +454,18 @@ public interface DahuaNetSDKLibrary extends Library {
      * @see #CLIENT_RealPlayEx #CLIENT_StopRealPlayEx
      */
     int CLIENT_SetRealDataCallBackEx(NativeLong lRealHandle, RealDataCallBackEx cbRealData, NativeLong dwUser, int dwFlag);
+
+    /**
+     * 重启前端设备
+     * @param lLoginID {@link #CLIENT_LoginEx}的返回值
+     * @return 成功返回TRUE，失败返回FALSE。
+     */
+    int CLIENT_RebootDev(NativeLong lLoginID);
+
+    /**
+     * 关闭前端设备
+     * @param lLoginID {@link #CLIENT_LoginEx}的返回值
+     * @return 成功返回TRUE，失败返回FALSE。
+     */
+    int CLIENT_ShutDownDev(NativeLong lLoginID);
 }

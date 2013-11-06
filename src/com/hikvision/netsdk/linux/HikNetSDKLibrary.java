@@ -272,6 +272,28 @@ public interface HikNetSDKLibrary extends Library {
     int NET_DVR_Cleanup();
 
     /**
+     * 设置重连功能。
+     * <p>该接口可以同时控制预览、透明通道和布防的重连功能。
+     * 不调用该接口时，SDK默认启动预览、透明通道和布防的重连功能，重连时间间隔为5秒。</p>
+     *
+     * @param dwInterval   重连间隔，单位:毫秒
+     * @param bEnableRecon 是否重连，0-不重连，1-重连，参数默认值为1
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
+     *         <p style="text-align:center"><b>以下是该接口可能返回的错误值</b></p>
+     *         <table>
+     *         <thead>
+     *         <tr><th>错误类型</th><th>错误值</th><th>错误信息</th></tr>
+     *         </thead>
+     *         <tbody>
+     *         <tr><td>{@link ErrorNumber#NET_DVR_NOERROR}</td><td>0</td><td>没有错误。</td></tr>
+     *         <tr><td>{@link ErrorNumber#NET_DVR_NOINIT}</td><td>3</td><td>SDK未初始化。</td></tr>
+     *         </tbody>
+     *         </table>
+     */
+    int NET_DVR_SetReconnect(int dwInterval, int bEnableRecon);
+
+    /**
      * 用户注册设备。
      * <p>如DS-7116、DS-81xx、DS-90xx、DS-91xx等系列设备允许有32个注册用户名，且同时最多允许128个用户注册；
      * 如DS-80xx等设备允许有16个注册用户名，且同时最多允许128个用户注册。</p>
@@ -486,4 +508,20 @@ public interface HikNetSDKLibrary extends Library {
      * @see #NET_DVR_RealPlay_V30
      */
     int NET_DVR_SetStandardDataCallBack(int lRealHandle, RealDataCallBack cbStdDataCallBack, int dwUser);
+
+    /**
+     * 重启设备。
+     * @param lUserID 用户ID号，{@link #NET_DVR_Login_V30}的返回值
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
+     */
+    int NET_DVR_RebootDVR(int lUserID);
+
+    /**
+     * 关闭设备。
+     * @param lUserID 用户ID号，{@link #NET_DVR_Login_V30}的返回值
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
+     */
+    int NET_DVR_ShutDownDVR(int lUserID);
 }

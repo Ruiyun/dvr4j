@@ -444,5 +444,10 @@ CLIENT_API BOOL CALL_METHOD CLIENT_StopRealPlayEx(LLONG lRealHandle);
 // 设置实时监视数据回调--扩展
 CLIENT_API BOOL CALL_METHOD CLIENT_SetRealDataCallBackEx(LLONG lRealHandle, RealDataCallBackEx cbRealData, LDWORD dwUser, DWORD dwFlag);
 
+// 重启设备
+CLIENT_API BOOL CALL_METHOD CLIENT_RebootDev(LLONG lLoginID);
+
+// 关闭设备
+CLIENT_API BOOL CALL_METHOD CLIENT_ShutDownDev(LLONG lLoginID);
 
 #endif // DHNETSDK_H

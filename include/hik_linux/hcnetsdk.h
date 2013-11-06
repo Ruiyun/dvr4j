@@ -451,6 +451,8 @@ NET_DVR_API char* __stdcall NET_DVR_GetErrorMsg(LONG *pErrorNo = NULL);
 NET_DVR_API BOOL __stdcall NET_DVR_Init();
 NET_DVR_API BOOL __stdcall NET_DVR_Cleanup();
 
+NET_DVR_API BOOL __stdcall NET_DVR_SetReconnect(DWORD dwInterval, BOOL bEnableRecon);
+
 NET_DVR_API LONG __stdcall NET_DVR_Login_V30(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword, LPNET_DVR_DEVICEINFO_V30 lpDeviceInfo);
 NET_DVR_API BOOL __stdcall NET_DVR_Logout(LONG lUserID);
 NET_DVR_API BOOL __stdcall NET_DVR_Logout_V30(LONG lUserID);
@@ -460,5 +462,10 @@ NET_DVR_API BOOL __stdcall NET_DVR_StopRealPlay(LONG lRealHandle);
 
 NET_DVR_API BOOL __stdcall NET_DVR_SetRealDataCallBack(LONG lRealHandle, RealDataCallBack fRealDataCallBack, DWORD dwUser);
 NET_DVR_API BOOL __stdcall NET_DVR_SetStandardDataCallBack(LONG lRealHandle, RealDataCallBack fRealDataCallBack, DWORD dwUser);
+
+//重启
+NET_DVR_API BOOL __stdcall NET_DVR_RebootDVR(LONG lUserID);
+//关闭DVR
+NET_DVR_API BOOL __stdcall NET_DVR_ShutDownDVR(LONG lUserID);
 
 #endif // _HC_NET_SDK_H_
