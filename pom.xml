@@ -52,6 +52,18 @@
         <directory>target/</directory>
         <outputDirectory>target/classes</outputDirectory>
 	</build>
+	<repositories>
+        <repository>
+            <id>clojars</id>
+            <url>https://clojars.org/repo/</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </repository>
+	</repositories>
 </project>
 
 
