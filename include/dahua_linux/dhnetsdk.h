@@ -351,6 +351,14 @@ enum NET_DEVICE_TYPE
     NET_EIVS,                 // 嵌入式智能分析视频系统
 };
 
+// 视频监视断开事件类型
+typedef enum _EM_REALPLAY_DISCONNECT_EVENT_TYPE
+{
+	DISCONNECT_EVENT_REAVE,                     // 表示高级用户抢占低级用户资源
+	DISCONNECT_EVENT_NETFORBID,                 // 禁止入网
+	DISCONNECT_EVENT_SUBCONNECT,                // 动态子链接断开
+}EM_REALPLAY_DISCONNECT_EVENT_TYPE;
+
 // Structs
 // 时间
 typedef struct
@@ -407,6 +415,12 @@ typedef void (CALLBACK *HaveReConnectCallBack)(LLONG lLoginID, char *pchDVRIP, L
 // 实时监视数据回调函数原形--扩展
 typedef void (CALLBACK *RealDataCallBackEx)(LLONG lRealHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, LONG param, LDWORD dwUser);
 
+// 视频监视断开回调函数原形,
+typedef void (CALLBACK *RealPlayDisConnectCallBack)(LLONG lOperateHandle, EM_REALPLAY_DISCONNECT_EVENT_TYPE dwEventType, void* param, LDWORD dwUser);
+
+// 动态子连接断开回调函数原形
+typedef void (CALLBACK *SubDisConnectCallBack(EM_INTERFACE_TYPE emInterfaceType, BOOL bOnline, LLONG lOperateHandle, LLONG lLoginID, LDWORD dwUser);
+
 // Functions
 // SDK初始化
 CLIENT_API BOOL CALL_METHOD CLIENT_Init(DisConnectCallBack cbDisConnect, LDWORD dwUser);
@@ -419,6 +433,9 @@ CLIENT_API DWORD CALL_METHOD CLIENT_GetLastError(void);
 
 // 设置连接设备超时时间和尝试次数
 CLIENT_API void CALL_METHOD CLIENT_SetConnectTime(int nWaitTime, int nTryTimes);
+
+// 设置动态子连接断线回调函数，目前SVR设备的监视和回放是短连接的。
+CLIENT_API void CALL_METHOD CLIENT_SetSubconnCallBack(SubDisConnectCallBack cbSubDisConnect, LDWORD dwUser);
 
 // 向设备注册
 // 扩展接口；nSpecCap  = 0为TCP方式下的登入，nSpecCap = 2为主动注册的登入，nSpecCap = 3为组播方式下的登入，
@@ -437,6 +454,9 @@ CLIENT_API void CALL_METHOD CLIENT_SetAutoReconnect(HaveReConnectCallBack cbAuto
 
 // 开始实时监视--扩展
 CLIENT_API LLONG CALL_METHOD CLIENT_RealPlayEx(LLONG lLoginID, int nChannelID, HWND hWnd, DH_RealPlayType rType = DH_RType_Realplay);
+
+//打开实时监视，若返回0表示打开失败
+CLIENT_API LLONG CALL_METHOD CLIENT_StartRealPlay(LLONG lLoginID, int nChannelID, HWND hWnd, DH_RealPlayType rType, RealDataCallBackEx cbRealData, fRealPlayDisConnect cbDisconnect, LDWORD dwUser, DWORD dwWaitTime = 10000);
 
 // 停止实时预览--扩展
 CLIENT_API BOOL CALL_METHOD CLIENT_StopRealPlayEx(LLONG lRealHandle);

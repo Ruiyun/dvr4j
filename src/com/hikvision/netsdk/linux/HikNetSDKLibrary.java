@@ -1,8 +1,9 @@
 package com.hikvision.netsdk.linux;
 
 import com.hikvision.netsdk.def.ErrorNumber;
-import com.hikvision.netsdk.def.StreamDataType;
-import com.sun.jna.Callback;
+import com.hikvision.netsdk.linux.callback.ExceptionCallBack;
+import com.hikvision.netsdk.linux.callback.RealDataCallBack;
+import com.hikvision.netsdk.linux.callback.RealDataCallBack_V30;
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 import com.sun.jna.NativeLibrary;
@@ -25,58 +26,6 @@ public interface HikNetSDKLibrary extends Library {
 
     public static final int TRUE = (int) 1;
     public static final int FALSE = (int) 0;
-
-    /**
-     * 码流数据回调接口
-     */
-    public interface RealDataCallBack_V30 extends Callback {
-        /**
-         * @param lRealHandle 当前的预览句柄
-         * @param dwDataType  数据类型
-         *                    <table>
-         *                    <thead>
-         *                    <tr><th>类型</th><th>值</th><th>含义</th></tr>
-         *                    </thead>
-         *                    <tbody>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_SYSHEAD}</td><td>1</td><td>系统头数据</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_STREAMDATA}</td><td>2</td><td>流数据（包括复合流或音视频分开的视频流数据）</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_AUDIOSTREAMDATA}</td><td>3</td><td>音频数据</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_PRIVATE_DATA}</td><td>112</td><td>私有数据,包括智能信息</td></tr>
-         *                    </tbody>
-         *                    </table>
-         * @param pBuffer     存放数据的缓冲区指针
-         * @param dwBufSize   缓冲区大小
-         * @param pUser       用户数据
-         */
-        void invoke(int lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, Pointer pUser);
-    }
-
-    /**
-     * 适用于{@link #NET_DVR_SetRealDataCallBack}和{@link #NET_DVR_SetStandardDataCallBack}的码流数据回调接口
-     */
-    public interface RealDataCallBack extends Callback {
-        /**
-         * @param lRealHandle 当前的预览句柄
-         * @param dwDataType  数据类型
-         *                    <table>
-         *                    <thead>
-         *                    <tr><th>类型</th><th>值</th><th>含义</th></tr>
-         *                    </thead>
-         *                    <tbody>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_SYSHEAD}</td><td>1</td><td>系统头数据</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_STREAMDATA}</td><td>2</td><td>流数据（包括复合流或音视频分开的视频流数据）</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_AUDIOSTREAMDATA}</td><td>3</td><td>音频数据</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_STD_VIDEODATA}</td><td>4</td><td>标准视频流数据</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_STD_AUDIODATA}</td><td>5</td><td>标准音频流数据</td></tr>
-         *                    <tr><td>{@link StreamDataType#NET_DVR_PRIVATE_DATA}</td><td>112</td><td>私有数据,包括智能信息</td></tr>
-         *                    </tbody>
-         *                    </table>
-         * @param pBuffer     存放数据的缓冲区指针
-         * @param dwBufSize   缓冲区大小
-         * @param dwUser      用户数据
-         */
-        void invoke(int lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, int dwUser);
-    }
 
     /**
      * 返回最后操作的错误码。
@@ -292,6 +241,18 @@ public interface HikNetSDKLibrary extends Library {
      *         </table>
      */
     int NET_DVR_SetReconnect(int dwInterval, int bEnableRecon);
+
+    /**
+     * 注册接收异常、重连等消息的窗口句柄或回调函数。
+     *
+     * @param reserved1          Linux下该参数保留
+     * @param reserved2          Linux下该参数保留
+     * @param fExceptionCallBack 接收异常消息的回调函数，回调当前异常的相关信息
+     * @param pUser              用户数据
+     * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
+     *         获取错误码调用{@link #NET_DVR_GetLastError}
+     */
+    int NET_DVR_SetExceptionCallBack_V30(int reserved1, Pointer reserved2, ExceptionCallBack fExceptionCallBack, Pointer pUser);
 
     /**
      * 用户注册设备。
@@ -511,6 +472,7 @@ public interface HikNetSDKLibrary extends Library {
 
     /**
      * 重启设备。
+     *
      * @param lUserID 用户ID号，{@link #NET_DVR_Login_V30}的返回值
      * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
      *         获取错误码调用{@link #NET_DVR_GetLastError}
@@ -519,6 +481,7 @@ public interface HikNetSDKLibrary extends Library {
 
     /**
      * 关闭设备。
+     *
      * @param lUserID 用户ID号，{@link #NET_DVR_Login_V30}的返回值
      * @return {@link #TRUE}表示成功，{@link #FALSE}表示失败。
      *         获取错误码调用{@link #NET_DVR_GetLastError}

@@ -1,6 +1,7 @@
 package com.dahua.netsdk.linux;
 
 import com.dahua.netsdk.def.DH_RealPlayType;
+import com.dahua.netsdk.linux.callback.*;
 import com.sun.jna.*;
 import com.sun.jna.ptr.IntByReference;
 
@@ -10,8 +11,12 @@ import com.sun.jna.ptr.IntByReference;
 @SuppressWarnings("UnusedDeclaration")
 public interface DahuaNetSDKLibrary extends Library {
     public static final String JNA_LIBRARY_NAME = "dhnetsdk";
-    public static final NativeLibrary JNA_NATIVE_LIB = NativeLibrary.getInstance(DahuaNetSDKLibrary.JNA_LIBRARY_NAME);
-    public static final DahuaNetSDKLibrary INSTANCE = (DahuaNetSDKLibrary) Native.loadLibrary(DahuaNetSDKLibrary.JNA_LIBRARY_NAME, DahuaNetSDKLibrary.class);
+
+    public static final NativeLibrary JNA_NATIVE_LIB =
+            NativeLibrary.getInstance(DahuaNetSDKLibrary.JNA_LIBRARY_NAME);
+
+    public static final DahuaNetSDKLibrary INSTANCE = (DahuaNetSDKLibrary) Native.loadLibrary(
+            DahuaNetSDKLibrary.JNA_LIBRARY_NAME, DahuaNetSDKLibrary.class);
 
     public static final int NULL = 0;
     public static final int TRUE = 1;
@@ -23,60 +28,6 @@ public interface DahuaNetSDKLibrary extends Library {
      * 设备序列号字符长度
      */
     public static final int DH_SERIALNO_LEN = 48;
-
-    /**
-     * 网络连接断开回调函数原形
-     */
-    public interface DisConnectCallBack extends Callback {
-        /**
-         * @param lLoginID 登陆句柄
-         * @param pchDVRIP 设备IP
-         * @param nDVRPort 端口
-         * @param dwUser   用户数据，就是上面输入的用户数据
-         */
-        void invoke(NativeLong lLoginID, String pchDVRIP, int nDVRPort, NativeLong dwUser);
-    }
-
-    /**
-     * 网络连接恢复回调函数原形
-     */
-    public interface HaveReConnectCallBack extends Callback {
-        /**
-         * @param lLoginID 登陆句柄
-         * @param pchDVRIP 当前设备IP地址
-         * @param nDVRPort 当前设备端口号
-         * @param dwUser   用户自定义数据
-         */
-        void invoke(NativeLong lLoginID, String pchDVRIP, int nDVRPort, NativeLong dwUser);
-    }
-
-    /**
-     * 实时监视数据回调函数原形--扩展
-     */
-    public interface RealDataCallBackEx extends Callback {
-        /**
-         * @param lRealHandle 实时监视ID
-         * @param dwDataType  标识回调出来的数据类型，只有dwFlag设置标识的数据才会回调出来：
-         *                    <table>
-         *                    <thead>
-         *                    <tr><th>dwDataType</th><th>数据类型</th></tr>
-         *                    </thead>
-         *                    <tbody>
-         *                    <tr><td>0</td><td>原始数据(与SaveRealData保存的数据一致)</td></tr>
-         *                    <tr><td>1</td><td>帧数据</td></tr>
-         *                    <tr><td>2</td><td>yuv数据</td></tr>
-         *                    <tr><td>3</td><td>pcm音频数据</td></tr>
-         *                    </tbody>
-         *                    </table>
-         * @param pBuffer     回调数据，根据数据类型的不同每次回调不同的长度的数据，除类型0，其他数据类型都是按帧，每次回调一帧数据
-         * @param dwBufSize   回调数据的长度，根据不同的类型，长度也不同(单位字节)
-         * @param param       回调数据参数结构体，根据不同的类型，参数结构也不一致，当类型为0(原始数据)和2(YUV数据) 时为0。
-         *                    当回调的数据类型为帧数据时param为一个{@link tagVideoFrameParam}结构体指针。
-         *                    当数据类型是PCM数据的时候param也是一个{@link tagCBPCMDataParam}结构体指针
-         * @param dwUser      用户数据，就是上面输入的用户数据
-         */
-        void invoke(NativeLong lRealHandle, int dwDataType, Pointer pBuffer, int dwBufSize, Pointer param, NativeLong dwUser);
-    }
 
     /**
      * 返回函数执行失败代码，当调用SDK接口失败时，可以用该函数获取失败的代码，具体错误代码参见下表
@@ -362,7 +313,8 @@ public interface DahuaNetSDKLibrary extends Library {
      * @return 失败返回0，成功返回设备ID，登录成功之后对设备的操作都可以通过此值(设备句柄)对应到相应的设备。
      * @see #CLIENT_Logout
      */
-    NativeLong CLIENT_LoginEx(String pchDVRIP, short wDVRPort, String pchUserName, String pchPassword, int nSpecCap, Pointer pCapParam, NET_DEVICEINFO.ByReference lpDeviceInfo, IntByReference error);
+    NativeLong CLIENT_LoginEx(String pchDVRIP, short wDVRPort, String pchUserName, String pchPassword, int nSpecCap,
+                              Pointer pCapParam, NET_DEVICEINFO.ByReference lpDeviceInfo, IntByReference error);
 
     /**
      * 注销设备用户
@@ -383,6 +335,56 @@ public interface DahuaNetSDKLibrary extends Library {
      * @param dwUser        用户自定义数据，在回调中可以使用
      */
     void CLIENT_SetAutoReconnect(HaveReConnectCallBack cbAutoConnect, NativeLong dwUser);
+
+    /**
+     * 设置动态子连接断线回调函数，目前SVR设备的监视和回放是短连接的。
+     * <p>一般在程序初始化的时候设置该回调函数，对枚举中的子链接断线回调，客户可根据回调句柄知道是哪个子链接断线回调。</p>
+     *
+     * @param cbSubDisConnect 子链接断线回调函数
+     * @param dwUser          用户自定义参数
+     */
+    void CLIENT_SetSubconnCallBack(SubDisConnectCallBack cbSubDisConnect, NativeLong dwUser);
+
+
+    /**
+     * 打开实时监视，若返回0表示打开失败
+     *
+     * @param lLoginID     CLIENT_Login的返回值
+     * @param nChannelID   实时监视通道号，如果rType为RType_Multiplay该参数保留。
+     *                     当rType为RType_Multiplay_1~RType_Multiplay_16时，nChannelID决定了预览的画面，
+     *                     如当RType_Multiplay_4时，通道为4或5或6或7表示预览第5到第7通道的四画面预览
+     * @param hWnd         窗口句柄。值为0（NULL）时对数据不解码不显示图像
+     * @param rType        值定义类型{@link DH_RealPlayType}，如下表：
+     *                     <table>
+     *                     <thead>
+     *                     <tr><th>类型</th><th>代表含义</th></tr>
+     *                     </thead>
+     *                     <tbody>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Realplay}</td><td>实时预览</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay}</td><td>多画面预览</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Realplay_0}</td><td>实时监视-主码流，等同于DH_RType_Realplay</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Realplay_1}</td><td>实时监视-从码流1</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Realplay_2}</td><td>实时监视-从码流2</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Realplay_3}</td><td>实时监视-从码流3</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay_1}</td><td>多画面预览－1画面</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay_4}</td><td>多画面预览－4画面</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay_8}</td><td>多画面预览－8画面</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay_9}</td><td>多画面预览－9画面</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay_16}</td><td>多画面预览－16画面</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay_6}</td><td>多画面预览－6画面</td></tr>
+     *                     <tr><td>{@link DH_RealPlayType#DH_RType_Multiplay_12}</td><td>多画面预览－12画面</td></tr>
+     *                     </tbody>
+     *                     </table>
+     * @param cbRealData   实时监视数据回调函数，见 #CLIENT_SetRealDataCallBackEx
+     * @param cbDisconnect 视频监视断开回调函数
+     * @param dwUser       用户自定义数据，在回调中可以使用
+     * @param dwWaitTime   等待时间
+     * @return 失败返回0，成功返回实时监视ID(实时监视句柄)，将作为相关函数的参数。
+     */
+    NativeLong CLIENT_StartRealPlay(NativeLong lLoginID, int nChannelID, Pointer hWnd, DH_RealPlayType rType,
+                                    RealDataCallBackEx cbRealData, RealPlayDisConnectCallBack cbDisconnect,
+                                    NativeLong dwUser, int dwWaitTime);
+
 
     /**
      * 启动实时监视或多画面预览。对于支持双码流的设备，可通过设置RealPlayType参数选择主码流或从码流进行监视
@@ -457,6 +459,7 @@ public interface DahuaNetSDKLibrary extends Library {
 
     /**
      * 重启前端设备
+     *
      * @param lLoginID {@link #CLIENT_LoginEx}的返回值
      * @return 成功返回TRUE，失败返回FALSE。
      */
@@ -464,6 +467,7 @@ public interface DahuaNetSDKLibrary extends Library {
 
     /**
      * 关闭前端设备
+     *
      * @param lLoginID {@link #CLIENT_LoginEx}的返回值
      * @return 成功返回TRUE，失败返回FALSE。
      */

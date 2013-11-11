@@ -443,6 +443,7 @@ typedef struct
 /// Callbacks
 typedef void (CALLBACK * RealDataCallBack_V30)(LONG lRealHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, void *pUser)
 typedef void (CALLBACK * RealDataCallBack)(LONG lRealHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, DWORD dwUser)
+typedef void (CALLBACK * ExceptionCallBack)(DWORD dwType, LONG lUserID, LONG lHandle, void *pUser)
 
 /// Functions
 NET_DVR_API DWORD __stdcall NET_DVR_GetLastError();
@@ -452,6 +453,8 @@ NET_DVR_API BOOL __stdcall NET_DVR_Init();
 NET_DVR_API BOOL __stdcall NET_DVR_Cleanup();
 
 NET_DVR_API BOOL __stdcall NET_DVR_SetReconnect(DWORD dwInterval, BOOL bEnableRecon);
+
+NET_DVR_API BOOL __stdcall NET_DVR_SetExceptionCallBack_V30(UINT reserved1, void *reserved2, ExceptionCallBack fExceptionCallBack, void *pUser);
 
 NET_DVR_API LONG __stdcall NET_DVR_Login_V30(char *sDVRIP, WORD wDVRPort, char *sUserName, char *sPassword, LPNET_DVR_DEVICEINFO_V30 lpDeviceInfo);
 NET_DVR_API BOOL __stdcall NET_DVR_Logout(LONG lUserID);

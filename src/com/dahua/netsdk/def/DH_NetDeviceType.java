@@ -1,5 +1,8 @@
 package com.dahua.netsdk.def;
 
+/**
+ * 设备类型
+ */
 public interface DH_NetDeviceType {
 
     public static final int NET_PRODUCT_NONE = 0;
