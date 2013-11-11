@@ -381,7 +381,7 @@ public interface DahuaNetSDKLibrary extends Library {
      * @param dwWaitTime   等待时间
      * @return 失败返回0，成功返回实时监视ID(实时监视句柄)，将作为相关函数的参数。
      */
-    NativeLong CLIENT_StartRealPlay(NativeLong lLoginID, int nChannelID, Pointer hWnd, DH_RealPlayType rType,
+    NativeLong CLIENT_StartRealPlay(NativeLong lLoginID, int nChannelID, Pointer hWnd, int rType,
                                     RealDataCallBackEx cbRealData, RealPlayDisConnectCallBack cbDisconnect,
                                     NativeLong dwUser, int dwWaitTime);
 
