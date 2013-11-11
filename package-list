@@ -1,6 +1,8 @@
 com.dahua.netsdk
 com.dahua.netsdk.def
 com.dahua.netsdk.linux
+com.dahua.netsdk.linux.callback
 com.hikvision.netsdk
 com.hikvision.netsdk.def
 com.hikvision.netsdk.linux
+com.hikvision.netsdk.linux.callback
