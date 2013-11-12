@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.ruiyun.dvr4j</groupId>
+	<groupId>com.github.ruiyun.dvr4j</groupId>
 	<artifactId>dvr4j</artifactId>
 	<name>dvr4j</name>
     <description>针对各个主要DVR厂商SDK的Java封装</description>
@@ -29,7 +29,7 @@
 			<version>4.0.0</version>
 		</dependency>
         <dependency>
-            <groupId>com.ruiyun.dvr4j</groupId>
+            <groupId>com.github.ruiyun.dvr4j</groupId>
             <artifactId>dvr4j-contrib</artifactId>
             <version>1.0</version>
         </dependency>
@@ -52,18 +52,6 @@
         <directory>target/</directory>
         <outputDirectory>target/classes</outputDirectory>
 	</build>
-	<repositories>
-        <repository>
-            <id>clojars</id>
-            <url>https://clojars.org/repo/</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </repository>
-	</repositories>
 </project>
 
 
