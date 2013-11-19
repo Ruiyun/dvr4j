@@ -4,6 +4,7 @@ import com.sun.jna.Structure;
 
 import java.util.Arrays;
 import java.util.List;
+import com.dahua.netsdk.def.DH_NetDeviceType;
 
 /**
  * 设备信息
@@ -30,7 +31,7 @@ public class NET_DEVICEINFO extends Structure {
     public byte byDiskNum;
 
     /**
-     * DVR类型, 见枚举DHDEV_DEVICE_TYPE
+     * DVR类型, 见{@link DH_NetDeviceType}
      */
     public byte byDVRType;
 

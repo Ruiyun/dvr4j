@@ -3,7 +3,7 @@ package com.dahua.netsdk.def;
 /**
  * 预览类型，对应CLIENT_RealPlayEx接口
  */
-public interface DH_RealPlayType {
+public abstract class DH_RealPlayType {
     /**
      * 实时预览
      */

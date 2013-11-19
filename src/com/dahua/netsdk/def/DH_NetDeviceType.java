@@ -3,7 +3,7 @@ package com.dahua.netsdk.def;
 /**
  * 设备类型
  */
-public interface DH_NetDeviceType {
+public abstract class DH_NetDeviceType {
 
     public static final int NET_PRODUCT_NONE = 0;
     /**
@@ -250,4 +250,60 @@ public interface DH_NetDeviceType {
      * 嵌入式智能分析视频系统
      */
     public static final int NET_EIVS = 49;
+
+    public static String description(int code) {
+        switch (code) {
+            case NET_PRODUCT_NONE: return "未知型号设备";
+            case NET_DVR_NONREALTIME_MACE: return "非实时MACE";
+            case NET_DVR_NONREALTIME: return "非实时";
+            case NET_NVS_MPEG1: return "网络视频服务器";
+            case NET_DVR_MPEG1_2: return "MPEG1二路录像机";
+            case NET_DVR_MPEG1_8: return "MPEG1八路录像机";
+            case NET_DVR_MPEG4_8: return "MPEG4八路录像机";
+            case NET_DVR_MPEG4_16: return "MPEG4十六路录像机";
+            case NET_DVR_MPEG4_SX2: return "LB系列录像机";
+            case NET_DVR_MEPG4_ST2: return "GB系列录像机";
+            case NET_DVR_MEPG4_SH2: return "HB系列录像机";
+            case NET_DVR_MPEG4_GBE: return "GBE系列录像机";
+            case NET_DVR_MPEG4_NVSII: return "II代网络视频服务器";
+            case NET_DVR_STD_NEW: return "新标准配置协议";
+            case NET_DVR_DDNS: return "DDNS服务器";
+            case NET_DVR_ATM: return "ATM机";
+            case NET_NB_SERIAL: return "二代非实时NB系列机器";
+            case NET_LN_SERIAL: return "LN系列产品";
+            case NET_BAV_SERIAL: return "BAV系列产品";
+            case NET_SDIP_SERIAL: return "SDIP系列产品";
+            case NET_IPC_SERIAL: return "IPC系列产品";
+            case NET_NVS_B: return "NVS B系列";
+            case NET_NVS_C: return "NVS H系列";
+            case NET_NVS_S: return "NVS S系列";
+            case NET_NVS_E: return "NVS E系列";
+            case NET_DVR_NEW_PROTOCOL: return "从QueryDevState中查询设备类型,以字符串格式";
+            case NET_NVD_SERIAL: return "解码器";
+            case NET_DVR_N5: return "N5";
+            case NET_DVR_MIX_DVR: return "混合DVR";
+            case NET_SVR_SERIAL: return "SVR系列";
+            case NET_SVR_BS: return "SVR-BS";
+            case NET_NVR_SERIAL: return "NVR系列";
+            case NET_DVR_N51: return "N51";
+            case NET_ITSE_SERIAL: return "ITSE 智能分析盒";
+            case NET_ITC_SERIAL: return "智能交通像机设备";
+            case NET_HWS_SERIAL: return "雷达测速仪HWS";
+            case NET_PVR_SERIAL: return "便携式音视频录像机";
+            case NET_IVS_SERIAL: return "IVS（智能视频服务器系列）";
+            case NET_IVS_B: return "通用智能视频侦测服务器";
+            case NET_IVS_F: return "人脸识别服务器";
+            case NET_IVS_V: return "视频质量诊断服务器";
+            case NET_MATRIX_SERIAL: return "矩阵";
+            case NET_DVR_N52: return "N52";
+            case NET_DVR_N56: return "N56";
+            case NET_ESS_SERIAL: return "ESS";
+            case NET_IVS_PC: return "人数统计服务器";
+            case NET_PC_NVR: return "pc-nvr";
+            case NET_DSCON: return "大屏控制器";
+            case NET_EVS: return "网络视频存储服务器";
+            case NET_EIVS: return "嵌入式智能分析视频系统";
+            default: return "未知型号设备";
+        }
+    }
 }

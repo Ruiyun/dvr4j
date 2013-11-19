@@ -3,7 +3,7 @@ package com.dahua.netsdk.def;
 /**
  * 视频监视断开事件类型
  */
-public interface DH_RealplayDisconnectEventType {
+public abstract class DH_RealplayDisconnectEventType {
     /**
      * 表示高级用户抢占低级用户资源
      */

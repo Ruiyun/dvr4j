@@ -440,6 +440,58 @@ typedef struct
     char *sMultiCastIP; //多播组地址
 } NET_DVR_CLIENTINFO, *LPNET_DVR_CLIENTINFO;
 
+//DVR设备参数
+typedef struct
+{
+    DWORD dwSize;
+    BYTE sDVRName[NAME_LEN];          //DVR名称
+    DWORD dwDVRID;                    //DVR ID,用于遥控器 //V1.4(0-99), V1.5(0-255)
+    DWORD dwRecycleRecord;            //是否循环录像,0:不是; 1:是
+    BYTE sSerialNumber[SERIALNO_LEN]; //序列号
+    DWORD dwSoftwareVersion;          //软件版本号,高16位是主版本,低16位是次版本
+    DWORD dwSoftwareBuildDate;        //软件生成日期,0xYYYYMMDD
+    DWORD dwDSPSoftwareVersion;       //DSP软件版本,高16位是主版本,低16位是次版本
+    DWORD dwDSPSoftwareBuildDate;     //DSP软件生成日期,0xYYYYMMDD
+    DWORD dwPanelVersion;             //前面板版本,高16位是主版本,低16位是次版本
+    DWORD dwHardwareVersion;          //硬件版本,高16位是主版本,低16位是次版本
+    BYTE byAlarmInPortNum;            //DVR报警输入个数
+    BYTE byAlarmOutPortNum;           //DVR报警输出个数
+    BYTE byRS232Num;                  //DVR 232串口个数
+    BYTE byRS485Num;                  //DVR 485串口个数
+    BYTE byNetworkPortNum;            //网络口个数
+    BYTE byDiskCtrlNum;               //DVR 硬盘控制器个数
+    BYTE byDiskNum;                   //DVR 硬盘个数
+    BYTE byDVRType;                   //DVR类型, 1:DVR 2:ATM DVR 3:DVS ......
+    BYTE byChanNum;                   //DVR 通道个数
+    BYTE byStartChan;                 //起始通道号,例如DVS-1,DVR - 1
+    BYTE byDecordChans;               //DVR 解码路数
+    BYTE byVGANum;                    //VGA口的个数
+    BYTE byUSBNum;                    //USB口的个数
+    BYTE byAuxoutNum;                 //辅口的个数
+    BYTE byAudioNum;                  //语音口的个数
+    BYTE byIPChanNum;                 //最大数字通道数
+    BYTE byZeroChanNum;               //零通道编码个数
+    BYTE bySupport;                   //能力，位与结果为0表示不支持，1表示支持，
+                                      //bySupport & 0x1, 表示是否支持智能搜索
+                                      //bySupport & 0x2, 表示是否支持备份
+                                      //bySupport & 0x4, 表示是否支持压缩参数能力获取
+                                      //bySupport & 0x8, 表示是否支持多网卡
+                                      //bySupport & 0x10, 表示支持远程SADP
+                                      //bySupport & 0x20, 表示支持Raid卡功能
+                                      //bySupport & 0x40, 表示支持IPSAN搜索
+                                      //bySupport & 0x80, 表示支持rtp over rtsp
+    BYTE byEsataUseage;               //Esata的默认用途，0-默认备份，1-默认录像
+    BYTE byIPCPlug;                   //0-关闭即插即用，1-打开即插即用
+    BYTE byStorageMode;               //0-盘组模式,1-磁盘配额, 2抽帧模式
+    BYTE bySupport1;                  //能力，位与结果为0表示不支持，1表示支持
+                                      //bySupport1 & 0x1, 支持 SNMP v30
+                                      //bySupport1 & 0x2, 支持区分回放和下载
+                                      //bySupport1 & 0x4, 是否支持布防优先级
+    WORD wDevType;                    //设备型号
+    BYTE byDevTypeName[24];           //设备型号名称
+    BYTE byRes2[16];                  //保留
+}
+
 /// Callbacks
 typedef void (CALLBACK * RealDataCallBack_V30)(LONG lRealHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, void *pUser)
 typedef void (CALLBACK * RealDataCallBack)(LONG lRealHandle, DWORD dwDataType, BYTE *pBuffer, DWORD dwBufSize, DWORD dwUser)
@@ -470,5 +522,8 @@ NET_DVR_API BOOL __stdcall NET_DVR_SetStandardDataCallBack(LONG lRealHandle, Rea
 NET_DVR_API BOOL __stdcall NET_DVR_RebootDVR(LONG lUserID);
 //关闭DVR
 NET_DVR_API BOOL __stdcall NET_DVR_ShutDownDVR(LONG lUserID);
+
+//获取设备参数配置
+NET_DVR_API BOOL __stdcall NET_DVR_GetDVRConfig(LONG lUserID, DWORD dwCommand, LONG lChannel, LPVOID lpOutBuffer, DWORD dwOutBufferSize, LPDWORD lpBytesReturned);
 
 #endif // _HC_NET_SDK_H_

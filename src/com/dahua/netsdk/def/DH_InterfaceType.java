@@ -3,7 +3,7 @@ package com.dahua.netsdk.def;
 /**
  * 接口类型，对应CLIENT_SetSubconnCallBack接口
  */
-public interface DH_InterfaceType {
+public abstract class DH_InterfaceType {
     /**
      * 未知接口
      */
